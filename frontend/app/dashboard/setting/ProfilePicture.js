@@ -7,9 +7,19 @@ import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
 const ProfilePicture = ({auth}) => {
+  const { refresh } = useRouter()
     console.log(auth)
     const [state, setState] = useState("")
     const [loader, setLoader] = useState(false)
+    const [school, setSchool] = useState({
+        name: "",
+        address: "",
+        district:""
+    })
+    const onChange = (e) => {
+        console.log(e.target.value)
+        setSchool({...school, [e.target.name] : e.target.value})
+    }
     const { push } = useRouter()
  
     const fileTypes = ["JPG", "PNG", "JPEG"];
@@ -28,36 +38,87 @@ const ProfilePicture = ({auth}) => {
             setLoader(false)
             console.log(data)
           
-            setState(data.secure_url);
+            setState({...state, image: data.secure_url});
         } 
         
         catch (error) {
-            setLoader(false)
-            
-            
+            setLoader(false) 
         }
-        console.log(state)
+        console.log(state.image)
         
     };
-    const { error, isError, isSuccess, isLoading, mutate, data} = useMutation(data => {
-        return axios.put('http://localhost:5001/api/auth/update-image' , data)
-        
-        
-      })
-      console.log(data)
-      
+    useEffect(() => {
+      if(auth?.user?.school) {
+        setSchool(auth?.user?.school)
+      }
+    },[auth])
+    const {
+      error: updateImageError,
+      isError: isUpdateImageError,
+      isSuccess: isUpdateImageSuccess,
+      isLoading: isUpdateImageLoading,
+      mutate: updateImageMutate,
+      data: updateImageData
+    } = useMutation((updateImageData) => {
+      return axios.put('http://localhost:5001/api/auth/update-image', updateImageData);
+    });
+  
+      console.log(updateImageData)
    
     const updateImage = () => {
-        mutate({imageURL: state, userId: auth.user._id})
+      updateImageMutate({imageURL: state, userId: auth.user._id})
     }
     console.log(state)
     useEffect(() => {
-        if(isSuccess) {
+        if(isUpdateImageSuccess) {
             toast.success("image has been updated")
             push("/dashboard")
         }
        
-    },[isSuccess])
+    },[isUpdateImageSuccess])
+    const {
+        error: createSchoolError,
+        isError: isCreateSchoolError,
+        isSuccess: isCreateSchoolSuccess,
+        isLoading: isCreateSchoolLoading,
+        mutate: createSchoolMutate,
+        data: createSchoolData
+      } = useMutation((createSchoolData) => {
+        return axios.post('http://localhost:5001/api/auth/create-school', createSchoolData);
+      });
+console.log(createSchoolData)
+    const createSchool = () => {
+      createSchoolMutate({...school, userId: auth?.user?._id})
+    }
+    const {
+      error: updateSchoolError,
+      isError: isUpdatechoolError,
+      isSuccess: isUpdateSchoolSuccess,
+      isLoading: isUpdateSchoolLoading,
+      mutate: updateSchoolMutate,
+      data: updateSchoolData,status
+    } = useMutation((updateSchoolData) => {
+      return axios.put('http://localhost:5001/api/auth/update-school', updateSchoolData);
+    });
+    console.log(isUpdateSchoolLoading)
+    console.log(status)
+console.log(createSchoolData)
+  const updateSchool = () => {
+    updateSchoolMutate(school)
+  }
+  useEffect(() => {
+    if(isUpdateSchoolSuccess) {
+        toast.success("School has been updated")
+        refresh()
+    }
+},[isUpdateSchoolSuccess])
+    useEffect(() => {
+      if(isCreateSchoolSuccess) {
+          toast.success("School has been created")
+          refresh()
+      }
+  },[isCreateSchoolSuccess])
+   console.log(school)
   return (
     <>
     <div className='grid w-full lg:grid-cols-2 gap-5'>
@@ -68,7 +129,7 @@ const ProfilePicture = ({auth}) => {
 
 
 </form>
-{isLoading ? <Spinner/> : <button onClick={updateImage} type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+{isUpdateImageLoading ? <Spinner/> : <button onClick={updateImage} type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
   Save Image
 </button>}
 
@@ -81,16 +142,29 @@ const ProfilePicture = ({auth}) => {
       </div>
       
     </div>
+    
     <div className='grid grid-cols-1 md:grid-cols-2 border-t-[3px] mt-4 gap-4'>
         <div className='mt-3 space-y-3'>
-        <input type="text" class="py-3 px-4 block w-full border-gray-200 border-2 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="This is placeholder"/>
-        <input type="text" class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="This is placeholder"/>
+        <input name='name' value={school.name} onChange={onChange} type="  text" className="outline-none py-3 px-4 block w-full border-gray-200 border-2 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Enter School Name"/>
+        <input name='address' value={school.address} onChange={onChange} type="text" className="outline-none py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Enter School Address"/>
         </div>
         <div className='mt-3 space-y-3'>
-        <input type="text" class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="This is placeholder"/>
-        <input type="text" class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="This is placeholder"/>
+       
+        <select name='district' value={school.district} onChange={onChange} className=" outline-none py-3 px-4 pe-9 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+  <option selected>Select District</option>
+  <option>Dir Lower</option>
+  <option>Dir Upper</option>
+  <option>Swat</option>
+</select>
         </div>
     </div>
+    <div className='flex justify-start mt-5'>
+      {isCreateSchoolLoading || status === "loading" ? <Spinner/>  : <button onClick={auth?.user?.school ? updateSchool : createSchool} type="button" class="py-3 px-[70px] inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+  {auth?.user?.school ? "Update School" : "Create School"}
+</button>}
+   
+    </div>
+    
     </>
   )
 }

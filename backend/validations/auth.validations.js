@@ -40,3 +40,9 @@ module.exports.registerValidations = [
       .withMessage("please uplaod image"),
     
   ];
+  module.exports.createSchoolValidations = [
+    body("name").not().isEmpty().trim().escape().withMessage("Name is required"),
+    body("address").not().isEmpty().trim().escape().withMessage("address is required"),
+    body("district").not().isEmpty().trim().escape().withMessage("district is required"),
+    
+  ];

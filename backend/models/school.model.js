@@ -1,30 +1,26 @@
 const mongoose = require('mongoose');
-const userSchema = mongoose.Schema({
+const schoolSchema = mongoose.Schema({
     name: {
         required: true,
         type: String,
     },
-    email: {
+    address: {
         required: true,
         type: String,
     },
-    password: {
+    district: {
         required: true,
         type: String,
     },
-    image: {
-    required: false,
-    type: String,
-    
-    },
-    school: {
+    user: {
         type: mongoose.Types.ObjectId,
-        ref: "school"
+        ref: "user"
     }
+   
 },
 
 {
     timestamps: true
 });
-const userModel = mongoose.model('user', userSchema)
-module.exports = userModel
+const schoolModel = mongoose.model('school', schoolSchema)
+module.exports = schoolModel
