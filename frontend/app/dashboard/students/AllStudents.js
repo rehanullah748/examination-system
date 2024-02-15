@@ -10,12 +10,13 @@ import TableSkeleton from '@/components/Global/TableSkeleton';
 import Model from '@/components/Global/Model';
 import { useDispatch } from 'react-redux';
 import { openModel } from '@/Store/Reducers/studentReducer';
-import StudentProfile from '@/components/Students/StudentProfile';
 import MuiYearsSelect from '@/components/MUI/MuiYearsSelect';
+import StudentProfile from '@/components/Profile/StudenProfile';
 
 
 
-export default function DataTable() {
+export default function DataTable({auth}) {
+  console.log(auth)
   const [details, setDetails ] = React.useState(null)
   const [session, setSession] = React.useState('')
   const [selectClass, setSelectClass] = React.useState('')
@@ -37,7 +38,7 @@ export default function DataTable() {
       return data;
     }
     
-    const { data, isError, isFetching } = useQuery('students', getStudents)
+    const { data, isError, isFetching } = useQuery(["students", session, selectClass], getStudents)
     React.useEffect(() => {
       if(!isError && !isFetching) {
         setAllStudents(data)
@@ -51,7 +52,7 @@ export default function DataTable() {
     { field: 'f_name', headerName: 'Father Name', width: 120 },
     {
       field: 'image', headerName: 'Image', width: 130, renderCell: (params) => {
-        console.log(params.row.image)
+        console.log(params)
         return (
           <div className='w-10 h-10'>
             <CustomImage url={params.row.image} fallback={'/fallback.png'} />
@@ -71,12 +72,18 @@ export default function DataTable() {
       description: 'This column has a value getter and is not sortable.',
       width: 120,
     },
-    
+    {
+      field: 'phone_no',
+      headerName: 'Phone No',
+      description: 'This column has a value getter and is not sortable.',
+      width: 120,
+    },
     {
       field: 'update',
       headerName: 'Update',
       width: 120,
       renderCell: (row) => {
+        console.log(row)
         return (
           <Link href={{ pathname: "/dashboard/StudentUpdate", query: { id: row.row._id } }}><button type="button" class="py-2 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-800 text-white hover:bg-rows-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-gray-900 dark:focus:ring-offset-gray-800">Update
 
@@ -120,7 +127,7 @@ export default function DataTable() {
     <>
     
     <Model>
-      <StudentProfile details={details}/>
+      <StudentProfile auth={auth} details={details}/>
     </Model>
     <div className="mb-5 w-full lg:w-4/12">
     <MuiYearsSelect setSession={setSession} session={session} setSelectClass={setSelectClass} selectClass={selectClass}/>

@@ -42,7 +42,7 @@ async login (req, res) {
         const matched = await bcrypt.compare(password, user.password);
         if (matched) {
           const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, { expiresIn: '1d' });
-              res.cookie("examUser",token,{maxAge: 1000 * 60 * 60 * 24, domain:"localhost", httpOnly: true, sameSite:true})
+              res.cookie("examUser",token,{maxAge: 1000 * 60 * 60 * 24 * 7, domain:"localhost", httpOnly: true, sameSite:true})
         return res.status(200).json({ logdIn: "logdIn successfully", token });
         } else {
           return res.status(400).json({ error: "wrong credintials" });

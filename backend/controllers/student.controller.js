@@ -6,12 +6,12 @@ class Student {
         console.log(errors)
         try {
             if(errors.isEmpty()) {
-            const { reg_no, name, f_name, address, dob, previous_school, clas, domicile } = req.body;
+            const { reg_no, name, f_name, address, dob, previous_school, clas, image, domicile, phone_no } = req.body;
             const student = await studentModel.findOne({reg_no})
             console.log(student)
             if (!student) {
                 await studentModel.create({
-                    reg_no, name, f_name, address, dob, previous_school, clas, domicile
+                    reg_no, name, f_name, address, dob, previous_school, clas, domicile,image,phone_no, session: new Date().getFullYear()
                 })
                 return res.status(200).json({msg: "student created"})
             } else {
@@ -31,8 +31,28 @@ class Student {
         async getAllStudents (req, res)  {
             let conditions = {}
         const { session, selectclass } = req.query;
-        if(!session === "" && !session === undefined && !session === "undefined" && !selectclass === "" && !selectclass === undefined && !selectclass === "undifined" )
-         conditions = { session: session, selectclass: selectclass };
+        if (session !== undefined && session !== '' && selectclass !== undefined && selectclass !== '') {
+            conditions = {$and:[{session: Number(session)}, {clas: selectclass} ]};
+          } else if (selectclass !== undefined && selectclass !== '') {
+            conditions = { clas: selectclass };
+          } else if (session !== undefined && session !== '') {
+            conditions = { session:Number(session) };
+          }
+        // console.log(req.query)
+        // if(session !== "" && session !== undefined && session !== "undefined" && selectclass !== "" && selectclass !== undefined && selectclass !== "undefined" ) {
+        //     conditions = { session: session, selectclass: selectclass };
+        // }
+        
+        //  if(session !== "" && session !== undefined && session !== "undefined" && selectclass === "" || selectclass === undefined || selectclass === "undefined" ) {
+        //     conditions = {session};
+        
+        //  }
+         
+        //  if(session === "" || session === undefined || session === "undefined" && selectclass !== "" && selectclass !== undefined && selectclass !== "undefined" ) {
+        //     conditions = {clas: selectclass};
+        //  }
+        
+        console.log(conditions)
         try {
             const gotStudents = await studentModel.find(conditions)
             return res.status(200).json(gotStudents)

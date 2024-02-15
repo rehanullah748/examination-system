@@ -8,5 +8,6 @@ module.exports.createStudentValidations = [
     body("dob").not().isEmpty().trim().escape().withMessage("DOB is required"),
     body("clas").not().isEmpty().trim().escape().withMessage("class is required"),
     body("domicile").not().isEmpty().trim().escape().withMessage("domicile is required"),
+    body("phone_no").not().isEmpty().trim().escape().withMessage("Phone No is required"),
     
   ];

@@ -14,7 +14,8 @@ const ProfilePicture = ({auth}) => {
     const [school, setSchool] = useState({
         name: "",
         address: "",
-        district:""
+        district:"",
+        
     })
     const onChange = (e) => {
         console.log(e.target.value)
@@ -24,6 +25,7 @@ const ProfilePicture = ({auth}) => {
  
     const fileTypes = ["JPG", "PNG", "JPEG"];
     const handleChange = async (img) => {
+      
         const file = new FormData();
         file.append("file", img);
         file.append("upload_preset", "r4444res");
@@ -38,7 +40,7 @@ const ProfilePicture = ({auth}) => {
             setLoader(false)
             console.log(data)
           
-            setState({...state, image: data.secure_url});
+            setState(data.secure_url);
         } 
         
         catch (error) {
@@ -118,7 +120,7 @@ console.log(createSchoolData)
           refresh()
       }
   },[isCreateSchoolSuccess])
-   console.log(school)
+   console.log(state)
   return (
     <>
     <div className='grid w-full lg:grid-cols-2 gap-5'>

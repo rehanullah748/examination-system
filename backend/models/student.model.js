@@ -30,7 +30,7 @@ const studentSchema = mongoose.Schema({
         type: String,
     },
     previous_school: {
-        required: true,
+        required: false,
         type: String,
     },
     image: {
@@ -41,6 +41,10 @@ const studentSchema = mongoose.Schema({
     session: {
         required: true,
         type: Number
+    },
+    phone_no: {
+        required: true,
+        type: String
     }
     
 });

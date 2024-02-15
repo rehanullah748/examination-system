@@ -1,20 +1,24 @@
 import React from 'react'
 import CustomImage from '../Global/CustomImage'
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Image from 'next/image';
 
 
-const StudentProfile = ({details}) => {
+const StudentProfile = ({details, auth}) => {
+    console.log(auth.auth)
     console.log(details)
   return (
     <div className=''>
-      <div className='flex items-center space-x-4'>
-        <div className='w-[100px] h-[100px] rounded-lg overflow-hidden '>
+      <div className='flex items-center justify-between space-x-4'>
+        <div className='w-[100px] h-[100px] rounded-full border border-3 shadow-lg overflow-hidden '>
             <CustomImage url={details.image} fallback={'/fallback.png'}/>
         </div>
         <div className='ml-[120px]'>
         <h1 className='text-xl font-bold '>Elementry and secondery education department</h1>
         </div>
-        
+        <div>
+            <Image src={auth.user?.image} width={90} height={90}/>
+        </div>
        
       </div>
       <div className='flex items-center space-x-2 mt-5'>

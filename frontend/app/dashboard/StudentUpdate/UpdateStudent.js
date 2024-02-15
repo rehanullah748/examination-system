@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
+import PhoneInput from 'react-phone-number-input';
 
 
 const UpdateStudent = () => {
@@ -23,7 +24,8 @@ const UpdateStudent = () => {
     dob:"",
     image:"",
     clas:"",
-    domicile:""
+    domicile:"",
+    phone_no: ""
   })
 const currentDate = new Date()
 
@@ -75,6 +77,9 @@ const currentDate = new Date()
   }  
 
 };
+const phoneChange = (no) => {
+  setUpdateStudent({...updateStudent, phone_no: no})
+}
 
   return (
     <div className='bg-white p-[70px] rounded-lg'>
@@ -121,6 +126,12 @@ const currentDate = new Date()
     </div>
     <FileUploader handleChange={handleChange} name="file"  types={fileTypes} />
     <span className=''>{updateStudent?.image}</span>
+    <PhoneInput
+      placeholder="Enter phone number"
+      name="phone_no"
+      value={updateStudent.phone_no}
+      className='w-[50px] '
+      onChange={phoneChange}/>
     </div>
     <button onClick={Update} className='bg-blue-600 text-md px-5 py-3 mt-8 text-white rounded-md'>Update Student</button>
     

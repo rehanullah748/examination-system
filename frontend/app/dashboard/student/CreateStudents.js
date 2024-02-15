@@ -1,6 +1,7 @@
 "use client"
 import { errorsConversion } from '@/Utils';
 import Spinner from '@/components/Spinner';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -8,20 +9,24 @@ import { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import PhoneInput from 'react-phone-number-input';
 
 const CreateStudents = () => {
   const { push } = useRouter()
+ 
   const [state, setState ] = useState({
     reg_no:"",
     name:"",
     f_name:"",
     address:"",
     previous_school:"",
-    dob:"",
+    dob: dayjs(new Date()),
     image:"",
     clas:"",
     domicile:"",
-    session: ""
+    phone_no: ""
   })
   const [errors, setErrors] = useState({})
   const [imageLoader, setImageLoader] = useState(false)
@@ -67,15 +72,23 @@ const CreateStudents = () => {
       setState({...state, image: data.secure_url});
       console.log(state)
   } 
+  
   catch (error) {
       console.log(error)
   }  
 
 };
-
+const phoneChange = (no) => {
+  setState({...state, phone_no: no})
+}
+console.log(state)
   return (
     <div className='bg-white p-[70px] rounded-lg'>
+      <div>
       <h1 className='text-xl mb-5 font-semibold text-gray-600 '>Create Student</h1>
+        
+        </div>
+      
     <div className="grid grid-cols-1 md:grid-cols-2  mt-4 gap-7 ">
       <div>
       <input name='reg_no' value={state.reg_no} onChange={onChange} type="text" className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Enter Student Registration No"/>
@@ -98,7 +111,18 @@ const CreateStudents = () => {
     {errors.previous_school && <span className='text-rose-500'>{errors.previous_school}</span>} 
     </div>
     <div>
-    <input name='dob' value={state.dob} onChange={onChange} type="date" className="border py-3 px-4 block w-full border-gray-200 rounded-lg text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Enter Student Previous School"/>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+     
+        
+        <DatePicker
+        className='w-full'
+          label= {<span className='text-base font-mono font-semibold'>Date of Birth</span>}
+          value={state.dob}
+          onChange={(date) => setState({...state, dob: date?.toISOString()})}
+          // maxDate={new Date()}
+        />
+      
+    </LocalizationProvider>
     {errors.dob && <span className='text-rose-500'>{errors.dob}</span>} 
     </div>
     <div>
@@ -117,7 +141,17 @@ const CreateStudents = () => {
     {errors.domicile && <span className='text-rose-500'>{errors.domicile}</span>} 
     </div>
     <FileUploader handleChange={handleChange} name="file"  types={fileTypes} />
-    <span><Image src={state?.image} width={130} height={130} /></span>
+    {state.image  && <span><Image src={state?.image} width={60} height={60} /></span>}
+    <div className='flex'>
+    <PhoneInput
+      placeholder="Enter phone number"
+      name="phone_no"
+      value={state.phone_no}
+      className='w-[40px]'
+      defaultCountry="PK"
+      onChange={phoneChange}/>
+    </div>
+   
     </div>
     {isLoading ? <Spinner/> : <button onClick={Submit} className='bg-blue-600 text-md px-5 py-3 mt-8 text-white rounded-md'>Create Student</button>}
     

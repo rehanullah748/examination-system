@@ -9,7 +9,7 @@ const Model = ({children}) => {
   return (
   <>
   { studentModel ?  <div className='flex items-center justify-center fixed backdrop-blur inset-0 w-screen h-screen bg-black/25 z-[99999]'>
-      <div className='bg-white p-6 rounded-lg max-w-screen-xl relative w-full '>
+      <div className='bg-white p-6 rounded-lg relative  w-full lg:w-6/12 '>
       <span onClick={()=>dispatch(closeModel())} className='absolute top-2 right-2'><IoMdClose /></span>
         {children}
       </div>
