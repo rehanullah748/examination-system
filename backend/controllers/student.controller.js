@@ -27,8 +27,8 @@ class Student {
             return res.status(500).json({msg: "server internal error"})
         }
         }
-    
-        async getAllStudents (req, res)  {
+     
+       async getAllStudents (req, res)  {
             let conditions = {}
         const { session, selectclass } = req.query;
         if (session !== undefined && session !== '' && selectclass !== undefined && selectclass !== '') {
@@ -38,19 +38,7 @@ class Student {
           } else if (session !== undefined && session !== '') {
             conditions = { session:Number(session) };
           }
-        // console.log(req.query)
-        // if(session !== "" && session !== undefined && session !== "undefined" && selectclass !== "" && selectclass !== undefined && selectclass !== "undefined" ) {
-        //     conditions = { session: session, selectclass: selectclass };
-        // }
-        
-        //  if(session !== "" && session !== undefined && session !== "undefined" && selectclass === "" || selectclass === undefined || selectclass === "undefined" ) {
-        //     conditions = {session};
-        
-        //  }
-         
-        //  if(session === "" || session === undefined || session === "undefined" && selectclass !== "" && selectclass !== undefined && selectclass !== "undefined" ) {
-        //     conditions = {clas: selectclass};
-        //  }
+       
         
         console.log(conditions)
         try {

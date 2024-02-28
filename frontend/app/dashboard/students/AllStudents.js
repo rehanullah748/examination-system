@@ -47,11 +47,11 @@ export default function DataTable({auth}) {
     },[isError, isFetching])
 
   const columns = [
-    { field: 'reg_no', headerName: <span className='font-medium text-sm'>Reg_No</span>, width: 120 },
-    { field: 'name', headerName: 'Name', width: 120 },
-    { field: 'f_name', headerName: 'Father Name', width: 120 },
+    { field: 'reg_no', headerName: 'Reg_no', width: 90 },
+    { field: 'name', headerName: 'Name', width: 150 },
+  
     {
-      field: 'image', headerName: 'Image', width: 130, renderCell: (params) => {
+      field: 'image', headerName: 'Image', width: 100, renderCell: (params) => {
         console.log(params)
         return (
           <div className='w-10 h-10'>
@@ -61,27 +61,24 @@ export default function DataTable({auth}) {
       }
     },
    
-    {
-      field: 'address',
-      headerName: 'address',
-      width: 120,
-    },
+   
     {
       field: 'clas',
       headerName: 'class',
       description: 'This column has a value getter and is not sortable.',
-      width: 120,
+      width: 100,
     },
     {
       field: 'phone_no',
       headerName: 'Phone No',
       description: 'This column has a value getter and is not sortable.',
-      width: 120,
+      width: 100,
     },
+   
     {
       field: 'update',
       headerName: 'Update',
-      width: 120,
+      width: 100,
       renderCell: (row) => {
         console.log(row)
         return (
@@ -94,7 +91,7 @@ export default function DataTable({auth}) {
     {
       field: 'delete',
       headerName: 'Delete',
-      width: 120,
+      width: 100,
       renderCell: (row) => {
         return (
           <button
@@ -109,7 +106,7 @@ export default function DataTable({auth}) {
     {
       field: 'details',
       headerName: 'Details',
-      width: 120,
+      width: 100,
       renderCell: (row) => {
         return (
         <button className="capitalize py-2 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-800 text-white hover:bg-rows-900 focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-offset-2 transition-all text-sm dark:focus:ring-blue-900 dark:focus:ring-offset-blue-800" onClick={()=>{
@@ -129,7 +126,7 @@ export default function DataTable({auth}) {
     <Model>
       <StudentProfile auth={auth} details={details}/>
     </Model>
-    <div className="mb-5 w-full lg:w-4/12">
+    <div className="mb-5  w-full lg:w-4/12">
     <MuiYearsSelect setSession={setSession} session={session} setSelectClass={setSelectClass} selectClass={selectClass}/>
     </div>
     
@@ -140,7 +137,7 @@ export default function DataTable({auth}) {
         getRowId={(row) => row._id}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 7 },
           },
         }}
         pageSize={[5, 10]}

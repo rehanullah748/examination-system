@@ -14,15 +14,18 @@ import MarksForm from '@/components/Marks/MarksForm';
 export default function DataTable({auth}) {
   console.log(auth)
  const [student, setStudent] = React.useState('')
-  const [session, setSession] = React.useState('')
-  const [selectClass, setSelectClass] = React.useState('')
+  const [session, setSession] = React.useState(new Date().getFullYear())
+  const [selectClass, setSelectClass] = React.useState('6th')
     const dispatch = useDispatch()
     const [allStudents, setAllStudents ] = React.useState([])
   
     
     const getStudents = async () => {
-      const { data } = await axios.get(`http://localhost:5001/api/student/get-all-students?session=${session}&selectclass=${selectClass}`)
+     
+        const { data } = await axios.get(`http://localhost:5001/api/marks/get-all-students-for-marks?session=${session}&selectclass=${selectClass}`)
       return data;
+      
+      
     }
     
     const { data, isError, isFetching } = useQuery(["students", session, selectClass], getStudents)
@@ -87,11 +90,11 @@ export default function DataTable({auth}) {
      <MarksForm student={student}/>
     </MarksModel>
     <div className="mb-5 w-full lg:w-4/12">
-    <MuiYearsSelect setSession={setSession} session={session} setSelectClass={setSelectClass} selectClass={selectClass}/>
-    </div>
+  <MuiYearsSelect setSession={setSession} session={session} setSelectClass={setSelectClass} selectClass={selectClass}/></div>
     
-     <div className='bg-white' style={{ height: 400, width: '72%' }}>
-      {isFetching ? <TableSkeleton /> : <DataGrid
+    
+     <div className='bg-white' style={{ height: 400, width: '90%' }}>
+      {isFetching ? <div className='p-5'><TableSkeleton /></div> : <DataGrid
         rows={allStudents}
         columns={columns}
         getRowId={(row) => row._id}

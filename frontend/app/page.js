@@ -1,17 +1,24 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { check_auth } from './actions'
+import { redirect} from 'next/navigation'
 
 export const metadata = {
   title: 'School Management Software',
   description: 'examination system',
 }
 
-export default function Home() {
+  const Home = async() => {
+
+  const auth = await check_auth()
+  if(auth.auth) {
+    redirect('/dashboard')
+  }
   return (
     
    
     <div className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')]">
-      <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+      <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 ">
        
         <div className="mt-5 max-w-2xl text-center mx-auto">
           <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-gray-200">
@@ -49,3 +56,4 @@ Data-driven insights, smarter decisions, better outcomes.</p>
     
   )
 }
+export default Home;

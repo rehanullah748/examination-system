@@ -14,7 +14,7 @@ const StudentProfile = ({details, auth}) => {
             <CustomImage url={details.image} fallback={'/fallback.png'}/>
         </div>
         <div className='ml-[120px]'>
-        <h1 className='text-xl font-bold '>Elementry and secondery education department</h1>
+        <h1 className='text-[15px] font-semibold '>Elementry and secondery education department</h1>
         </div>
         <div>
             <Image src={auth.user?.image} width={90} height={90}/>
@@ -47,9 +47,10 @@ const StudentProfile = ({details, auth}) => {
         <span className='capatalize text-sm font-medium'>Class</span>
         <span className='capatalize text-sm font-medium'>{details.clas}</span>
         </div>
+       
         <div className='border-t flex items-center justify-between w-full p-5'>
-        <span className='capatalize text-sm font-medium'>Domicile</span>
-        <span className='capatalize text-sm font-medium'>{details.domicile}</span>
+        <span className='capatalize text-sm font-medium'>Phone No</span>
+        <span className='capatalize text-sm font-medium'>{details.phone_no}</span>
         </div>
         </div>
        

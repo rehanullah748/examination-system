@@ -9,6 +9,7 @@ router.put('/auth/update-image',imageUpdateValidations , authController.updateIm
 router.get('/auth/user-profile', authController.getProfile );
 router.post('/auth/create-school',createSchoolValidations, authController.createSchool );
 router.put('/auth/update-school',createSchoolValidations, authController.updateSchool );
+router.put('/auth//user-logout', authController.logOut);
 
 
 module.exports = router

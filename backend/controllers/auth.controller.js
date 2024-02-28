@@ -144,6 +144,15 @@ async getProfile (req, res) {
       }
   
   }
+
+  async logOut (req, res)  {
+    try {
+      res.clearCookie("examUser", {domain: "localhost", httpOnly: true})
+      return res.status(200).json({msg: "you are logged out"})
+    } catch (error) {
+      res.status(500).json({error: "server internal error"})
+    }
+  }
   
 }
 

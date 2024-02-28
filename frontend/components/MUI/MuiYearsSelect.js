@@ -18,8 +18,7 @@ export default function MuiYearsSelect({setSession, session, selectClass, setSel
     years.push( <MenuItem value={year}>{year}</MenuItem>)
   }
   return (
-    <>
-    <h1 className='text-base font-medium mb-3 font-sans'>Filter Record</h1>
+    <div className='bg-white w-full  p-5'>
      <div className='flex items-center space-x-7'>
     <Box sx={{ minWidth: 190 }}>
       <FormControl fullWidth>
@@ -57,7 +56,7 @@ export default function MuiYearsSelect({setSession, session, selectClass, setSel
       </FormControl>
     </Box>
     </div>
-    </>
+    </div>
    
     
     

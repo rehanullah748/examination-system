@@ -53,7 +53,7 @@ const Register = () => {
     }
 
     return (
-        <section className="h-screen  ">
+        <section className="h-screen   ">
             <div className="dark:bg-slate-900  flex h-full items-center py-16 bg-gray-100">
                 <main className="w-full max-w-md mx-auto p-6 ">
                     

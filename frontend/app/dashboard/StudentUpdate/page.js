@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 const page = () => {
   const auth = check_auth()
-  redirect("/")
+ 
   return (
     <div>
       <UpdateStudent/>

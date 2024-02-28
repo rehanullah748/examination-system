@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 const marksSchema = mongoose.Schema({
-    subject: {
+    
+    reg_no: {
         required: true,
         type: String,
     },
+ 
+    
     clas: {
         required: true,
         type: String,
-        enum: ["6th", "7th", "8th", "9th", "10th"]
+        enum: ["6th","7th","8th","9th","10th"]
     },
     marks: {
         required: true,
@@ -32,5 +35,5 @@ const marksSchema = mongoose.Schema({
 {
     timestamps: true
 });
-const schoolModel = mongoose.model('school', schoolSchema)
-module.exports = schoolModel
+const marksModel = mongoose.model('mark', marksSchema)
+module.exports = marksModel

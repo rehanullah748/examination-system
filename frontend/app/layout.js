@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
       <body><PrelineSetup/>
       <Provider store={store}>
-      <Toaster toastOptions={{duration: 5000}}
+      <Toaster toastOptions={{duration: 5000, className:'z-[99999999999999999]'}}
        position="top-right"
        reverseOrder={false}
 />
